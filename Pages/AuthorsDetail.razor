@@ -1,0 +1,39 @@
+﻿@page "/authors/authorsDetail/{authorId}"
+@page "/authors/authorsDetail"
+@page "/author"
+@inject IAuthorService AuthorService;
+@using My_First_Blazor_App.Data
+
+
+
+<h3>AuthorsDetail</h3>
+
+<div class="col-12 row">
+    <h5 class="col-12 row" style="font-weight: bold">@authorDetails.FirstName  @authorDetails.LastName</h5>
+    <h5 class="col-12 row">City: @authorDetails.City</h5>
+    <h5 class="col-12 row">$@authorDetails.Salary</h5>
+</div>
+<hr />
+
+<div class="col-12 row">@AuthorService.GetCreatedDate()</div>
+<div class="col-12 row"> Version: @AuthorService.GetVersion()</div>
+
+<p> @AuthorId. J.K Rowoling/ Harry Porter</p>
+
+@code {
+
+
+    [Parameter]
+    public string AuthorId { get; set; }
+
+    public Author authorDetails { get; set; }
+    //public AuthorService authorService { get; set; }
+
+    protected override void OnInitialized()
+    {
+        //authorService = new AuthorService();
+        authorDetails = AuthorService.GetAuthorById(AuthorId);
+
+
+    }
+}

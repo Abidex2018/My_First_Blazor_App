@@ -1,0 +1,39 @@
+﻿@inject IJSRuntime JsRuntime
+
+
+    <select @bind="CurrentCity" class="form-control col-3">
+
+
+        @if (@Cities != null)
+        {
+
+            <option value="">...Select City...</option>
+            @foreach (var city in Cities)
+            {
+                <option value="@city">@city</option>
+            }
+        }
+    </select>
+
+@code {
+
+    [Parameter]
+    public string CurrentCity { get; set; }
+
+    public string[] Cities { get; set; }
+
+
+protected override async Task OnAfterRenderAsync(bool firstRender)
+{
+//Console.WriteLine("Author - AfterRenderAsync - Firstname:" + firstRender);
+if (firstRender && Cities == null)
+{
+Cities = await JsRuntime.InvokeAsync<string[]>("getCities");
+
+StateHasChanged();
+}
+//await base.OnAfterRenderAsync(firstRender);
+}
+
+
+}
